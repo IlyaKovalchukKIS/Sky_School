@@ -2,7 +2,7 @@ from django.views.generic import ListView, DetailView, UpdateView, CreateView, D
 from rest_framework import viewsets, generics
 
 from school.models import Course, Lesson
-from school.serliazers import CourseSerializer, LessonSerializer
+from school.serializers import CourseSerializer, LessonSerializer
 
 
 class CourseViewSet(viewsets.ModelViewSet):

@@ -2,7 +2,7 @@ from django.views.generic import ListView, DetailView, UpdateView, CreateView, D
 from rest_framework import viewsets, generics
 
 from school.models import Course, Lesson
-from school.serializers import CourseSerializer, LessonSerializer
+from school.serializers import CourseSerializer, LessonSerializer, PaymentSerializer
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -31,3 +31,7 @@ class LessonUpdateAPIView(generics.UpdateAPIView):
 
 class LessonDestroyAPIView(generics.DestroyAPIView):
     queryset = Lesson.objects.all()
+
+
+class PaymentCreateAPIView(generics.CreateAPIView):
+    serializer_class = PaymentSerializer

@@ -9,9 +9,9 @@ COURSES = [
 ]
 
 LESSONS = [
-    ['Django', 'Django lesson'],
-    ['Django Rest Framework', 'Django Rest Framework lesson'],
-    ['OOP', 'OOP lesson'],
+    ['Django', 'Django lesson', 1],
+    ['Django Rest Framework', 'Django Rest Framework lesson', 1],
+    ['OOP', 'OOP lesson', 1],
 ]
 
 
@@ -28,6 +28,7 @@ class Command(BaseCommand):
 
         for lesson in LESSONS:
             lesson_create = Lesson.objects.create(
+                course=Course.objects.get(pk=lesson[2]),
                 name=lesson[0],
                 description=lesson[1],
             )

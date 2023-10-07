@@ -19,11 +19,11 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    path('lesson/payment/create/', PaymentCreateAPIView.as_view(), name='payment_create'),
-    path('lesson/payment/list/', PaymentListAPIView.as_view(), name='payment_list'),
-    path('lesson/payment/detail/<int:pk>/', PaymentRetrieveAPIView.as_view(), name='payment_detail'),
-    path('lesson/payment/update/<int:pk>/', PaymentUpdateAPIView.as_view(), name='payment_update'),
-    path('lesson/payment/destroy/<int:pk>/', PaymentDestroyAPIView.as_view(), name='payment_destroy'),
+    path('payment/create/', PaymentCreateAPIView.as_view(), name='payment_create'),
+    path('payment/list/', PaymentListAPIView.as_view(), name='payment_list'),
+    path('payment/detail/<int:pk>/', PaymentRetrieveAPIView.as_view(), name='payment_detail'),
+    path('payment/update/<int:pk>/', PaymentUpdateAPIView.as_view(), name='payment_update'),
+    path('payment/destroy/<int:pk>/', PaymentDestroyAPIView.as_view(), name='payment_destroy'),
 
 ]
 

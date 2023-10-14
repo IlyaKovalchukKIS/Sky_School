@@ -12,6 +12,7 @@ class Course(models.Model):
     name = models.CharField(max_length=150, verbose_name='название')
     preview = models.ImageField(upload_to='school/course/', verbose_name='картинка', **NULLABLE)
     description = models.TextField(max_length=350, verbose_name='описание')
+    url_video = models.URLField(verbose_name='ссылка', **NULLABLE)
 
     def __str__(self):
         return f'{self.name}'
@@ -58,3 +59,16 @@ class Payment(models.Model):
         verbose_name = 'оплата'
         verbose_name_plural = 'оплаты'
         ordering = ('-date_payment',)
+
+
+class Subscription(models.Model):
+    student = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='студент')
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='курс')
+    is_active = models.BooleanField(verbose_name='активно', default=False)
+
+    def __str__(self):
+        return f'{self.student} {self.course}'
+
+    class Meta:
+        verbose_name = 'подписка на обновления'
+        verbose_name_plural = 'подписки на обновления'

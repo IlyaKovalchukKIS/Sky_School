@@ -51,7 +51,8 @@ class LessonCreateAPIView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         new_lesson = serializer.save()
-        new_lesson.owner = self.request.user
+        if not new_lesson.owner:
+            new_lesson.owner = self.request.user
         new_lesson.save()
 
 

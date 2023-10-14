@@ -11,7 +11,19 @@ from school.serializers import CourseSerializer, LessonSerializer, PaymentSerial
 class CourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
-    permission_classes = [IsAuthenticated]
+
+    def get_permissions(self):
+        if self.action == 'create':
+            permission_classes = [IsAuthenticated, IsManagerNotCreate]
+        elif self.action == 'update':
+            permission_classes = [IsAuthenticated, IsManager | IsOwner]
+        elif self.action == 'retrieve':
+            permission_classes = [IsAuthenticated, IsManager | IsOwner]
+        elif self.permission_classes == 'list':
+            permission_classes = [IsAuthenticated, IsManager | IsOwner]
+        else:
+            permission_classes = [IsAuthenticated, IsOwner]
+        return [permission() for permission in permission_classes]
 
 
 class LessonListAPIView(generics.ListAPIView):

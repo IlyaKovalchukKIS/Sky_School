@@ -9,6 +9,7 @@ NULLABLE = {'blank': True, 'null': True}
 class Course(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='владелец', **NULLABLE)
 
+    amount = models.IntegerField(verbose_name='стоимость', default=1000)
     name = models.CharField(max_length=150, verbose_name='название')
     preview = models.ImageField(upload_to='school/course/', verbose_name='картинка', **NULLABLE)
     description = models.TextField(max_length=350, verbose_name='описание')
@@ -25,6 +26,7 @@ class Course(models.Model):
 class Lesson(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='владелец', **NULLABLE)
 
+    amount = models.IntegerField(verbose_name='стоимость', default=1000)
     course = models.ForeignKey(Course, verbose_name='курс', on_delete=models.CASCADE, **NULLABLE)
     name = models.CharField(max_length=150, verbose_name='название')
     description = models.TextField(max_length=350, verbose_name='описание')
@@ -44,11 +46,11 @@ class Payment(models.Model):
         ('card', 'карта'),
         ('cash', 'наличные')
     ]
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='пользователь')
-    course_payment = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='курс', blank=True, null=True)
-    lesson_payment = models.ForeignKey(Lesson, on_delete=models.CASCADE, verbose_name='урок', blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='пользователь', **NULLABLE)
+    course_payment = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='курс',  **NULLABLE)
+    lesson_payment = models.ForeignKey(Lesson, on_delete=models.CASCADE, verbose_name='урок',  **NULLABLE)
 
-    date_payment = models.DateTimeField(verbose_name='дата платежа')
+    date_payment = models.DateTimeField(verbose_name='дата платежа', **NULLABLE)
     payment_amount = models.PositiveIntegerField(verbose_name='сумма оплаты')
     payment_method = models.CharField(max_length=30, choices=PAYMENT_METHOD, verbose_name='способ оплаты')
 

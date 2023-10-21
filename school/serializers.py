@@ -1,4 +1,10 @@
-from rest_framework import serializers
+import os
+
+import stripe
+from django.conf import settings
+from django.http import JsonResponse
+from rest_framework import serializers, status, response
+from rest_framework.response import Response
 
 from school.models import Course, Lesson, Payment, Subscription
 from school.validators import UrlValidator
@@ -35,3 +41,33 @@ class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment
         fields = '__all__'
+
+
+class SuccessPaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Payment
+        fields = '__all__'
+        extra_kwargs = {
+            'user': {'required': False}
+        }
+
+# class PaymentCreateSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Payment
+#         fields = '__all__'
+#         read_only_fields = ['date_payment']
+#
+#     def create(self, validated_data):
+#         stripe.api_key = settings.STRIPE_KEY_PUBLISHED
+#         product_id = validated_data.get('lesson_payment') if validated_data.get('lesson_payment') \
+#             else validated_data.get('course_payment')
+#         print(product_id)
+#         # product = Course.objects.get(name=product_id) if Course.objects.get(name=product_id) \
+#         #     else Lesson.objects.get(name=product_id)
+#         checkout_session = stripe.PaymentIntent.create(
+#             amount=2000,
+#             currency="usd",
+#             automatic_payment_methods={"enabled": True},
+#         )
+#         print(checkout_session)
+#         return response(checkout_session)

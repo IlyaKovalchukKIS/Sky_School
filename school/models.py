@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.utils import timezone
 
 from users.models import User
 
@@ -14,6 +15,7 @@ class Course(models.Model):
     preview = models.ImageField(upload_to='school/course/', verbose_name='картинка', **NULLABLE)
     description = models.TextField(max_length=350, verbose_name='описание')
     url_video = models.URLField(verbose_name='ссылка', **NULLABLE)
+    date_update = models.DateTimeField(verbose_name='время обновления', auto_now=timezone.now())
 
     def __str__(self):
         return f'{self.name}'

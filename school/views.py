@@ -13,6 +13,7 @@ from school.paginators import SchoolPaginator
 from school.permissions import IsOwner, IsManager, IsManagerNotCreate, IsSuperuser
 from school.serializers import CourseSerializer, LessonSerializer, PaymentSerializer, SubscriptionSerializer, \
     SuccessPaymentSerializer
+from school.tasks import check_update
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -27,11 +28,17 @@ class CourseViewSet(viewsets.ModelViewSet):
             permission_classes = [IsAuthenticated, IsManager | IsOwner | IsSuperuser]
         elif self.action == 'retrieve':
             permission_classes = [IsAuthenticated, IsManager | IsOwner | IsSuperuser]
-        elif self.permission_classes == 'list':
+        elif self.action == 'list':
             permission_classes = [IsAuthenticated, IsManager | IsOwner | IsSuperuser]
         else:
             permission_classes = [IsAuthenticated, IsOwner | IsSuperuser]
         return [permission() for permission in permission_classes]
+
+    def perform_update(self, serializer):
+        serializer.save()
+        data = serializer.data
+        print(data)
+        check_update.delay(data['id'])
 
 
 """Контроллеры уроков"""

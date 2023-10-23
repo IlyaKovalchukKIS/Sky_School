@@ -8,5 +8,6 @@ class UrlValidator:
     def __call__(self, value):
         true_url = 'https://www.youtube.com/'
         tmp_val = dict(value).get(self.field)
-        if not tmp_val.startswith(true_url):
-            raise ValidationError('Неправильная ссылка')
+        if tmp_val:
+            if not tmp_val.startswith(true_url):
+                raise ValidationError('Неправильная ссылка')

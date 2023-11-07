@@ -91,9 +91,10 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'database_skyschool',
+        'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'HOST':  'db'
     }
 }
 
@@ -162,7 +163,7 @@ STRIPE_KEY_PUBLISHED = os.getenv('STRIPE_KEY_PUBLISHED')
 # Настройки для Celery
 
 # URL-адрес брокера сообщений
-CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Например, Redis, который по умолчанию работает на порту 6379
+CELERY_BROKER_URL = 'redis://redis:6379/0'  # Например, Redis, который по умолчанию работает на порту 6379
 
 # URL-адрес брокера результатов, также Redis
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'

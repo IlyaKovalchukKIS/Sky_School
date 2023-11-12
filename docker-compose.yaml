@@ -13,22 +13,14 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data/pgdata
     ports:
-      - '15432:15432'
-    healthcheck:
-      test: ['CMD-SHELL', 'pg-isready']
-      interval: 10s
-      timeout: 10s
-      retries: 5
+      - '5432:5432'
 
   app:
     build: .
     tty: true
     command: python3 manage.py runserver 0.0.0.0:8000
     ports:
-      - '8001:8000'
-    depends_on:
-      db:
-        condition: service_healthy
+      - '8000:8000'
 
   celery:
     build: .

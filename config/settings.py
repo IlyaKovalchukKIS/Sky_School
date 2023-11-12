@@ -91,10 +91,10 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
+        'NAME': 'sky_school_db',
         'USER': 'postgres',
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-        'HOST':  'db'
+        'PASSWORD': '537865',
+        'HOST':  'db',
     }
 }
 

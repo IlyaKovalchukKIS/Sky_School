@@ -10,6 +10,11 @@ services:
     environment:
       - POSTGRES_PASSWORD=537865
       - PGDATA=/var/lib/postgresql/data/pgdata
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     volumes:
       - pg_data:/var/lib/postgresql/data/pgdata
     ports:
@@ -21,10 +26,13 @@ services:
     command: python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000
     ports:
       - '8000:8000'
+    depends_on:
+      db:
+        condition: service_healthy
 
   celery:
     build: .
-    command: celery -A config beat -l INFO -S django
+    command: celery -A config worker -l INFO && celery -A config beat -l INFO -S django
     depends_on:
       - redis
       - app
